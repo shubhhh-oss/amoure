@@ -128,6 +128,26 @@ window.AMOURE_PRODUCTS = [
     "imagePosition": "62% 72%",
     "color": "#FFF6DF",
     "inStock": true
+  },
+  {
+    "id": "bella",
+    "name": "bella",
+    "meaning": "billu",
+    "descriptor": "billu",
+    "mood": "gifting",
+    "price": 999,
+    "size": "200 g",
+    "burnTime": "40 hours",
+    "notes": {
+      "top": "",
+      "heart": "",
+      "base": ""
+    },
+    "description": "",
+    "image": "assets/images/candles/bella.jpg?v=261126135046",
+    "imagePosition": "80% 58%",
+    "color": "#535353",
+    "inStock": true
   }
 ];
 
