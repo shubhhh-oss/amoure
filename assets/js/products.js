@@ -144,9 +144,9 @@ window.AMOURE_PRODUCTS = [
       "base": ""
     },
     "description": "",
-    "image": "assets/images/candles/bella.jpg?v=261126135046",
-    "imagePosition": "80% 58%",
-    "color": "#535353",
+    "image": "assets/images/candles/bella.jpg?v=261126192649",
+    "imagePosition": "44% 55%",
+    "color": "#2A1A08",
     "inStock": true
   }
 ];

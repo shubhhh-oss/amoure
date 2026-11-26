@@ -18,6 +18,7 @@ Replace with your own photos and footage before launch by saving over the same f
 | scenes/three-jars.jpg | cottonbro studio (Pexels) | https://www.pexels.com/photo/lighted-candles-in-glass-jars-7407308/ |
 | scenes/jars-dark.jpg | Jorge Zamorano (Pexels) | https://www.pexels.com/photo/close-up-shot-of-lighted-candles-12781290/ |
 | scenes/hero-fallback.jpg | odalv | https://unsplash.com/photos/lit-candle-in-dark-room-Hp8Gyat10UA |
+| candles/bella.jpg | Mubinuddoula Arefin (Unsplash) | https://unsplash.com/photos/aV2JUWuunSc |
 
 Libraries in assets/vendor: GSAP and ScrollTrigger (free, gsap.com standard license), Lenis (MIT).
 Icons: Lucide (ISC). Fonts: Cormorant Garamond and Instrument Sans (Google Fonts, OFL).
