@@ -562,11 +562,27 @@
   function loopVideo(vids, src, { fade = 1.6, poster = "" } = {}) {
     let cur = 0, swapping = false, running = false;
     vids.forEach((v, i) => {
-      v.muted = true; v.loop = false; v.src = src;
+      // iPhone needs these as attributes to play silently in place; no picture-in-picture or AirPlay buttons
+      ["muted", "playsinline", "webkit-playsinline", "disablepictureinpicture", "disableremoteplayback"].forEach((a) => v.setAttribute(a, ""));
+      v.muted = true; v.loop = false; v.controls = false; v.src = src;
       if (i === 0) v.poster = poster; else v.style.opacity = 0;
     });
     const front = () => vids[cur];
-    const safePlay = (v) => { const p = v.play(); return p ? p.catch(() => {}) : Promise.resolve(); };
+    // If the phone refuses to autoplay (iPhone Low Power Mode does), the still poster stays on screen
+    // (the play button is hidden in CSS) and the video starts on the visitor's first tap.
+    let armed = false;
+    const GESTURES = ["touchend", "click", "keydown"];
+    function retryOnTap() {
+      if (armed) return;
+      armed = true;
+      const go = () => {
+        armed = false;
+        GESTURES.forEach((t) => document.removeEventListener(t, go, true));
+        if (running) safePlay(front());
+      };
+      GESTURES.forEach((t) => document.addEventListener(t, go, { capture: true, passive: true }));
+    }
+    const safePlay = (v) => { const p = v.play(); return p ? p.catch(() => retryOnTap()) : Promise.resolve(); };
     function swap() {
       if (swapping || vids.length < 2) { if (vids.length < 2) { vids[0].currentTime = 0; safePlay(vids[0]); } return; }
       swapping = true;

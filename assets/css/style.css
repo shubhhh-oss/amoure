@@ -145,6 +145,15 @@ p { margin: 0; }
 .mobile-menu a { height: 44px; display: flex; align-items: center; color: var(--text-2); font-size: 16px; }
 .mobile-sep { height: 1px; background: var(--line); margin: 8px 0; }
 
+/* decorative videos: never show the phone's own play button or controls (the still poster shows instead) */
+.hero-video, .auth-arch video { pointer-events: none; }
+.hero-video::-webkit-media-controls, .auth-arch video::-webkit-media-controls,
+.hero-video::-webkit-media-controls-panel, .auth-arch video::-webkit-media-controls-panel,
+.hero-video::-webkit-media-controls-overlay-play-button, .auth-arch video::-webkit-media-controls-overlay-play-button,
+.hero-video::-webkit-media-controls-start-playback-button, .auth-arch video::-webkit-media-controls-start-playback-button {
+  display: none !important; -webkit-appearance: none; opacity: 0 !important;
+}
+
 /* ---------- hero: a real candle, filmed ---------- */
 .hero { position: relative; min-height: 100svh; display: flex; align-items: center; overflow: hidden; background: #0c0a0a; }
 .hero-media { position: absolute; top: 0; bottom: 0; left: 26%; right: 0; transform-origin: 62% 55%; }
