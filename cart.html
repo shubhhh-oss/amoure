@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="robots" content="noindex">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cart · AMOURÉ</title>
+  <meta name="theme-color" content="#140A0D">
+  <link rel="icon" href="assets/images/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body data-page="cart" class="theme-cream">
+  <header id="site-header"></header>
+
+  <main class="page-main">
+    <div class="wrap" id="cart-page"></div>
+  </main>
+
+  <footer id="site-footer"></footer>
+
+  <script src="assets/vendor/gsap.min.js"></script>
+  <script src="assets/vendor/lenis.min.js"></script>
+  <script src="assets/js/config.js"></script>
+  <script src="assets/js/products.js"></script>
+  <script src="assets/js/auth.js"></script>
+  <script src="assets/js/store.js"></script>
+  <script>
+    const { CFG, Cart, Auth, money, esc, icon, productImage } = window.Amoure;
+    const page = document.getElementById("cart-page");
+    const user = Auth.current();
+
+    // a note written on the home page ("Write the card") is waiting here
+    function savedNote() {
+      try {
+        const n = JSON.parse(localStorage.getItem("amoure_gift_note_v1"));
+        if (!n || !n.msg) return "";
+        return [n.to && `To ${n.to}`, n.msg, n.from && `With love, ${n.from}`].filter(Boolean).join("\n");
+      } catch { return ""; }
+    }
+
+    function render() {
+      const lines = Cart.lines();
+      if (!lines.length) {
+        page.innerHTML = `
+          <h1 class="page-title">Your cart</h1>
+          <div class="empty"><p>Your cart is empty</p><a class="btn btn-merlot btn-lg" href="index.html#tray">See the collection</a></div>`;
+        return;
+      }
+      const t = Cart.totals();
+      const gap = CFG.freeShippingOver - t.subtotal;
+      page.innerHTML = `
+        <h1 class="page-title">Your cart</h1>
+        <div class="checkout">
+          <div>
+            <ul class="lines">
+              ${lines.map((l) => `
+                <li class="line">
+                  <a class="line-img" href="product.html?id=${encodeURIComponent(l.id)}" tabindex="-1" aria-hidden="true">${productImage(l.product)}</a>
+                  <div class="line-info">
+                    <a href="product.html?id=${encodeURIComponent(l.id)}">${esc(l.product.name)}</a>
+                    <span>${money(l.product.price)} · ${esc(l.product.size)}</span>
+                    <button class="line-remove" data-remove="${esc(l.id)}">Remove</button>
+                  </div>
+                  <div class="stepper">
+                    <button type="button" data-line-step="-1" data-id="${esc(l.id)}" aria-label="Fewer ${esc(l.product.name)}">${icon("minus", 16)}</button>
+                    <input value="${l.qty}" inputmode="numeric" data-line="${esc(l.id)}" aria-label="Quantity of ${esc(l.product.name)}">
+                    <button type="button" data-line-step="1" data-id="${esc(l.id)}" aria-label="More ${esc(l.product.name)}">${icon("plus", 16)}</button>
+                  </div>
+                  <span class="line-total">${money(l.total)}</span>
+                </li>`).join("")}
+            </ul>
+            <div class="totals">
+              <div><span>Subtotal</span><span>${money(t.subtotal)}</span></div>
+              <div><span>Delivery</span><span>${t.shipping ? money(t.shipping) : "Free"}</span></div>
+              ${gap > 0 ? `<p class="form-note">Add ${money(gap)} more for free delivery</p>` : ""}
+              <div class="grand"><span>Total</span><span>${money(t.total)}</span></div>
+            </div>
+          </div>
+
+          <form id="checkout-form" class="panel form" novalidate>
+            <h2>Delivery details</h2>
+            ${user ? "" : `<p class="form-note">Have an account? <a class="btn-link" href="signin.html?next=cart.html">Sign in</a> to fill this in and keep your orders</p>`}
+            <label class="field">Full name <input name="name" required autocomplete="name" value="${esc(user?.name || "")}"></label>
+            <label class="field">Phone (WhatsApp) <input name="phone" required inputmode="tel" pattern="[0-9+ ]{10,15}" autocomplete="tel" value="${esc(user?.phone || "")}"></label>
+            <label class="field">Email (optional) <input name="email" type="email" autocomplete="email" value="${esc(user?.email || "")}"></label>
+            <label class="field">Address <textarea name="address" rows="3" required autocomplete="street-address"></textarea></label>
+            <div class="field-row">
+              <label class="field">City <input name="city" required autocomplete="address-level2"></label>
+              <label class="field">PIN code <input name="pin" required inputmode="numeric" pattern="[0-9]{6}" autocomplete="postal-code"></label>
+            </div>
+            <label class="field">Gift message (optional) <textarea name="gift" rows="3" maxlength="240" placeholder="To… From…">${esc(savedNote())}</textarea></label>
+            <fieldset>
+              <legend>Payment</legend>
+              ${CFG.paymentOptions.map((o, i) => `
+                <label class="radio"><input type="radio" name="payment" value="${esc(o)}" ${i === 0 ? "checked" : ""}> ${esc(o)}</label>`).join("")}
+            </fieldset>
+            <p class="form-error" id="form-error" hidden></p>
+            <button class="btn btn-merlot btn-lg btn-full" type="submit">Place order on WhatsApp · ${money(t.total)}</button>
+          </form>
+        </div>`;
+    }
+
+    function orderText(order) {
+      const lines = order.lines.map((l) => `• ${l.name} × ${l.qty} = ${money(l.total)}`).join("\n");
+      return [
+        `New order ${order.id} – ${CFG.brand}`,
+        "",
+        lines,
+        "",
+        `Subtotal: ${money(order.subtotal)}`,
+        `Delivery: ${order.shipping ? money(order.shipping) : "Free"}`,
+        `Total: ${money(order.total)}`,
+        `Payment: ${order.payment}`,
+        "",
+        `Name: ${order.name}`,
+        `Phone: ${order.phone}`,
+        order.email ? `Email: ${order.email}` : null,
+        `Address: ${order.address}, ${order.city} – ${order.pin}`,
+        order.gift ? `Gift message: ${order.gift}` : null
+      ].filter((x) => x !== null).join("\n");
+    }
+
+    function newOrderId() {
+      const ymd = new Date().toISOString().slice(2, 10).replace(/-/g, "");
+      return `AM-${ymd}-${Math.random().toString(36).slice(2, 6).toUpperCase()}`;
+    }
+
+    page.addEventListener("change", (e) => {
+      const q = e.target.closest("[data-line]");
+      if (q) { Cart.setQty(q.dataset.line, Math.min(20, parseInt(q.value, 10) || 0)); render(); }
+    });
+
+    page.addEventListener("click", (e) => {
+      const r = e.target.closest("[data-remove]");
+      if (r) { Cart.remove(r.dataset.remove); render(); return; }
+      const s = e.target.closest("[data-line-step]");
+      if (s) {
+        const line = Cart.read().find((i) => i.id === s.dataset.id);
+        Cart.setQty(s.dataset.id, (line ? line.qty : 0) + Number(s.dataset.lineStep));
+        render();
+      }
+    });
+
+    page.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const form = e.target;
+      const err = document.getElementById("form-error");
+      if (!form.checkValidity()) {
+        const bad = form.querySelector(":invalid");
+        const name = bad.closest("label")?.firstChild.textContent.trim() || "the form";
+        err.textContent = `Please check: ${name}`;
+        err.hidden = false;
+        bad.focus();
+        return;
+      }
+      err.hidden = true;
+
+      const data = Object.fromEntries(new FormData(form));
+      const order = {
+        id: newOrderId(),
+        ...data,
+        lines: Cart.lines().map((l) => ({ id: l.id, name: l.product.name, qty: l.qty, total: l.total })),
+        ...Cart.totals()
+      };
+      const text = orderText(order);
+      Auth.saveOrder(order);
+
+      if (CFG.whatsappNumber) {
+        window.open(`https://wa.me/${CFG.whatsappNumber}?text=${encodeURIComponent(text)}`, "_blank");
+      }
+      Cart.clear();
+      page.innerHTML = `
+        <h1 class="page-title">Thank you, ${esc(data.name.split(" ")[0])}</h1>
+        <p class="page-sub">Your order number is <strong>${esc(order.id)}</strong></p>
+        ${CFG.whatsappNumber
+          ? `<p class="page-sub">WhatsApp has opened with your order. Press send there, and we will confirm and share payment details.</p>`
+          : `<p class="notice">Test mode: no WhatsApp number is set in assets/js/config.js, so here is the order message that would be sent</p>`}
+        <pre class="order-text">${esc(text)}</pre>
+        <div class="actions-row">
+          <a class="btn btn-merlot" href="shop.html">Keep shopping</a>
+          <button class="btn btn-quiet" id="copy">Copy order</button>
+          ${Auth.current() ? `<a class="btn-link" href="account.html">See your orders</a>` : ""}
+        </div>`;
+      document.getElementById("copy").onclick = (ev) =>
+        navigator.clipboard.writeText(text).then(() => { ev.target.textContent = "Copied"; });
+    });
+
+    render();
+  </script>
+</body>
+</html>

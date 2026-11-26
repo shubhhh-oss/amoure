@@ -1,0 +1,259 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="robots" content="noindex">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AMOURÉ · Scented candles for slow evenings and gifting</title>
+  <meta name="description" content="Hand-poured scented candles for slow evenings, gifting and romance.">
+  <meta name="theme-color" content="#140A0D">
+  <link rel="icon" href="assets/images/favicon.svg" type="image/svg+xml">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="AMOURÉ · Scented candles for slow evenings and gifting">
+  <meta property="og:description" content="Hand-poured scented candles for slow evenings, gifting and romance.">
+  <meta property="og:image" content="assets/images/scenes/hero-poster.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <script>try { if (!sessionStorage.getItem("amoure_intro") && !matchMedia("(prefers-reduced-motion: reduce)").matches) document.documentElement.classList.add("has-intro"); } catch (e) {}</script>
+  <link rel="preload" as="image" href="assets/images/scenes/hero-poster.jpg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Instrument+Sans:wght@400;500;600&family=Pinyon+Script&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body data-page="home" class="theme-night">
+  <div class="intro" aria-hidden="true"><p class="intro-word">AMOURÉ</p><p class="intro-line">Maison de bougies</p></div>
+  <header id="site-header"></header>
+
+  <main>
+    <!-- 1. Hero: a real candle burning -->
+    <section class="hero">
+      <div class="hero-media" aria-hidden="true">
+        <video class="hero-video" data-hero-loop muted playsinline autoplay preload="auto"></video>
+        <video class="hero-video" data-hero-loop muted playsinline preload="auto"></video>
+        <video class="hero-video hero-out" data-hero-out muted playsinline preload="none"></video>
+      </div>
+      <div class="hero-scrim"></div>
+      <div class="wrap hero-content">
+        <h1 class="tint" data-hero-part>Light your world.<br>Love your moments</h1>
+        <p class="hero-sub" data-hero-part>Hand-poured scented candles for slow evenings, gifting and romance</p>
+        <div class="hero-actions" data-hero-part>
+          <a class="btn btn-light btn-lg" href="#tray">See the collection</a>
+          <a class="btn-link" href="shop.html">Shop all candles</a>
+        </div>
+      </div>
+      <a class="hero-cue" href="#tray" aria-label="Scroll to the collection" data-hero-part>Scroll<i></i></a>
+    </section>
+
+    <!-- scent words drifting past -->
+    <div class="marquee" data-marquee aria-label="Scent notes"></div>
+
+    <!-- 2. The bedside: one candle at a time on a turning ring -->
+    <section class="tray" id="tray" aria-label="Candle collection">
+      <div class="tray-room" aria-hidden="true"><img src="assets/images/scenes/bedroom-night.jpg" alt="" loading="lazy"><img class="tray-room-lit" src="assets/images/scenes/bedroom-night.jpg" alt="" loading="lazy"></div>
+      <div class="tray-shade"></div>
+      <div class="wrap tray-inner">
+        <div class="tray-copy" data-copy aria-live="polite">
+          <div class="evening" data-in role="group" aria-label="Choose your evening">
+            <span class="evening-label">Tonight is for</span>
+            <button type="button" class="evening-chip" data-mood-pick="romance" aria-pressed="false">Romance</button>
+            <button type="button" class="evening-chip" data-mood-pick="calm" aria-pressed="false">Calm</button>
+            <button type="button" class="evening-chip" data-mood-pick="gifting" aria-pressed="false">Gifting</button>
+          </div>
+          <h2 class="tray-name tint" data-swap data-in><span data-t="name"></span></h2>
+          <p class="tray-meaning" data-swap data-in data-t="meaning"></p>
+          <p class="tray-price" data-in data-t="price"></p>
+          <p class="tray-desc" data-swap data-in data-t="desc"></p>
+          <dl class="notes" data-swap data-in>
+            <div><dt>Top</dt><dd data-t="top"></dd></div>
+            <div><dt>Heart</dt><dd data-t="heart"></dd></div>
+            <div><dt>Base</dt><dd data-t="base"></dd></div>
+          </dl>
+          <p class="tray-meta" data-swap data-in data-t="meta"></p>
+          <div class="tray-actions" data-in>
+            <button class="btn btn-light" data-t="add" data-add="">Add to cart</button>
+            <a class="btn-link" href="#buy">View details</a>
+          </div>
+          <div class="tray-controls" data-in>
+            <button type="button" class="round-btn" data-prev aria-label="Previous candle"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg></button>
+            <span class="tray-counter" data-counter>01 / 06</span>
+            <button type="button" class="round-btn" data-next aria-label="Next candle"><svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></button>
+          </div>
+        </div>
+
+        <div class="tray-stage" data-stage tabindex="0" aria-label="Candle ring. Use the left and right arrow keys, or swipe, to turn it">
+          <div class="tray-orbit" aria-hidden="true"></div>
+          <div class="tray-glow" aria-hidden="true"></div>
+          <div class="tray-ring" data-ring></div>
+          <p class="tray-hint">Swipe or drag to turn</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. Quote from the thank-you card -->
+    <section class="statement">
+      <div class="wrap">
+        <p class="statement-text" data-words>Thank you for welcoming AMOURÉ into your space. We hope this fragrance brings warmth, beauty and moments worth remembering.</p>
+        <p class="statement-sign"><span class="mini-seal" aria-hidden="true">A</span>With love, AMOURÉ</p>
+      </div>
+    </section>
+
+    <!-- 4. Buy -->
+    <section class="buy theme-cream" id="buy" aria-label="Buy">
+      <div class="wrap" id="buy-block"></div>
+      <div class="wrap"><ul class="promise" data-promise aria-label="How ordering works"></ul></div>
+    </section>
+
+    <!-- Write the card -->
+    <section class="note" id="note" aria-label="Write the card">
+      <div class="wrap note-grid">
+        <div class="note-copy">
+          <p class="label">For gifts</p>
+          <h2>Write the card</h2>
+          <p class="note-sub">Add a note to your order. Write it here and it will be waiting for you at checkout</p>
+          <form class="form note-form" data-note-form novalidate>
+            <div class="field-row">
+              <label class="field">To <input name="to" maxlength="32" placeholder="Riya" autocomplete="off"></label>
+              <label class="field">From <input name="from" maxlength="32" placeholder="Arjun" autocomplete="off"></label>
+            </div>
+            <label class="field">Message <textarea name="msg" rows="3" maxlength="160" placeholder="For the evenings you finally get to rest"></textarea></label>
+            <div class="note-actions">
+              <button class="btn btn-merlot" type="submit">Keep this note for checkout</button>
+              <span class="note-count tabular"><span data-note-count>0</span> / 160</span>
+            </div>
+            <p class="note-status" data-note-status role="status"></p>
+          </form>
+        </div>
+        <div class="note-stage" aria-hidden="true">
+          <div class="note-envelope"></div>
+          <div class="note-card" data-note-card>
+            <span class="note-seal">A</span>
+            <p class="note-to">To <span data-note-to></span></p>
+            <p class="note-msg" data-note-msg></p>
+            <p class="note-from">With love, <span data-note-from></span></p>
+            <span class="note-mark">AMOURÉ</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. Full-bleed moment -->
+    <section class="band" aria-label="The last hour of the day">
+      <div class="band-media"><img src="assets/images/scenes/bedside.jpg" alt="A candle glowing on a bedside table at night" loading="lazy"></div>
+      <div class="band-shade"></div>
+      <div class="wrap band-text">
+        <p class="band-quote tint">Made for the last hour of the day</p>
+        <p class="band-sub">Lights low, phone away, one candle on</p>
+      </div>
+    </section>
+
+    <!-- 6. Poster wall -->
+    <section class="posters" aria-label="The AMOURÉ wall">
+      <div class="posters-track">
+        <div class="posters-intro">
+          <h2 class="tint">The AMOURÉ wall</h2>
+          <p>Little reminders to slow down, one print for every evening</p>
+        </div>
+
+        <figure class="poster">
+          <div class="poster-art p-photo">
+            <img src="assets/images/candles/premier-amour.jpg" alt="" loading="lazy">
+            <span class="poster-top">AMOURÉ <span>n° 01</span></span>
+            <div class="poster-bottom">
+              <h3>Premier Amour</h3>
+              <p>Rose · Amber · Vanilla</p>
+            </div>
+          </div>
+        </figure>
+
+        <figure class="poster">
+          <div class="poster-art p-cream">
+            <span class="poster-top">AMOURÉ <span>Maison de bougies</span></span>
+            <p class="poster-quote">Light your world. Love your moments</p>
+            <span class="poster-seal" aria-hidden="true">A</span>
+          </div>
+        </figure>
+
+        <figure class="poster">
+          <div class="poster-art p-photo">
+            <img src="assets/images/scenes/three-jars.jpg" alt="" loading="lazy" style="object-position: 40% 50%">
+            <span class="poster-top">AMOURÉ <span>Les soirées</span></span>
+            <div class="poster-bottom">
+              <h3>Slow evenings</h3>
+              <p>For the hour after dinner</p>
+            </div>
+          </div>
+        </figure>
+
+        <figure class="poster">
+          <div class="poster-art p-night">
+            <span class="poster-top">AMOURÉ <span>Le rituel</span></span>
+            <h3>Candle care</h3>
+            <ol class="poster-steps">
+              <li>On the first light, burn until the whole top has melted, usually 2 to 3 hours</li>
+              <li>Trim the wick to about 5 mm before each light</li>
+              <li>Keep away from draughts, children and pets</li>
+              <li>Never leave a burning candle unattended</li>
+            </ol>
+          </div>
+        </figure>
+
+        <figure class="poster">
+          <div class="poster-art p-photo">
+            <img src="assets/images/candles/nuit-dor.jpg" alt="" loading="lazy">
+            <span class="poster-top">AMOURÉ <span>n° 04</span></span>
+            <div class="poster-bottom">
+              <h3>Nuit d'Or</h3>
+              <p>Saffron · Tonka · Amber</p>
+            </div>
+          </div>
+        </figure>
+
+        <figure class="poster">
+          <div class="poster-art p-pink">
+            <span class="poster-top">AMOURÉ <span>Pour toi</span></span>
+            <p class="poster-quote">A little something, just for you</p>
+            <span class="poster-seal" aria-hidden="true">A</span>
+          </div>
+        </figure>
+      </div>
+    </section>
+
+    <!-- 7. Shop by mood -->
+    <section class="moods-section">
+      <div class="wrap">
+        <div class="section-head" data-reveal>
+          <h2 class="tint">Shop by mood</h2>
+          <a class="btn-link" href="shop.html">All candles</a>
+        </div>
+        <div class="moods" id="moods"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer id="site-footer"></footer>
+
+  <script src="assets/vendor/gsap.min.js"></script>
+  <script src="assets/vendor/ScrollTrigger.min.js"></script>
+  <script src="assets/vendor/lenis.min.js"></script>
+  <script src="assets/js/config.js"></script>
+  <script src="assets/js/products.js"></script>
+  <script src="assets/js/auth.js"></script>
+  <script src="assets/js/store.js"></script>
+  <script src="assets/js/buy.js"></script>
+  <script>
+    // Shop by mood tiles use the first candle photo of each mood
+    (function () {
+      const { PRODUCTS, productImage, esc } = window.Amoure;
+      const lines = { romance: "For two, and the evenings that matter", calm: "For the last hour before sleep", gifting: "Ready to give, box and all" };
+      document.getElementById("moods").innerHTML = Object.entries(window.AMOURE_MOODS).map(([key, label]) => {
+        const p = PRODUCTS.find((x) => x.mood === key) || PRODUCTS[0];
+        return `<a class="mood" href="shop.html?mood=${key}" data-reveal>
+          <span class="mood-img">${productImage(p)}</span>
+          <span class="mood-text"><span class="mood-name">${esc(label)}</span><span class="mood-line">${esc(lines[key] || "")}</span></span>
+        </a>`;
+      }).join("");
+    })();
+  </script>
+  <script src="assets/js/home.js"></script>
+</body>
+</html>

@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="robots" content="noindex">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Candle · AMOURÉ</title>
+  <meta name="theme-color" content="#140A0D">
+  <link rel="icon" href="assets/images/favicon.svg" type="image/svg+xml">
+  <meta name="description" content="Hand-poured scented candles for slow evenings, gifting and romance.">
+  <meta property="og:title" content="AMOURÉ candle">
+  <meta property="og:image" content="assets/images/scenes/hero-poster.jpg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body data-page="product" class="theme-cream">
+  <header id="site-header"></header>
+
+  <main class="page-main">
+    <div class="wrap">
+      <a href="shop.html" class="back" id="back"></a>
+      <div id="buy-block"></div>
+      <section class="more">
+        <div class="section-head"><h2>You may also like</h2><a class="btn-link" href="shop.html">All candles</a></div>
+        <div class="grid" id="more"></div>
+      </section>
+    </div>
+  </main>
+
+  <footer id="site-footer"></footer>
+
+  <script src="assets/vendor/gsap.min.js"></script>
+  <script src="assets/vendor/lenis.min.js"></script>
+  <script src="assets/js/config.js"></script>
+  <script src="assets/js/products.js"></script>
+  <script src="assets/js/auth.js"></script>
+  <script src="assets/js/store.js"></script>
+  <script src="assets/js/buy.js"></script>
+  <script>
+    (function () {
+      const { PRODUCTS, byId, icon, productCard, reduceMotion, EASE } = window.Amoure;
+      document.getElementById("back").innerHTML = `${icon("back", 16)} All candles`;
+      const start = byId(new URLSearchParams(location.search).get("id")) || PRODUCTS[0];
+
+      function renderMore(id) {
+        const p = byId(id);
+        const others = PRODUCTS.filter((x) => x.id !== id);
+        const same = others.filter((x) => x.mood === p.mood);
+        const list = [...same, ...others.filter((x) => x.mood !== p.mood)].slice(0, 3);
+        document.getElementById("more").innerHTML = list.map(productCard).join("");
+        window.Amoure.initReveals(document.getElementById("more"));
+      }
+      function onSelect(id) {
+        const p = byId(id);
+        document.title = `${p.name} · AMOURÉ`;
+        history.replaceState(null, "", `product.html?id=${encodeURIComponent(id)}`);
+        renderMore(id);
+      }
+
+      const buy = window.AmoureBuy.mount(document.getElementById("buy-block"), start.id, { onSelect });
+      onSelect(start.id);
+
+      // the photo settles in on arrival
+      if (window.gsap && !reduceMotion) {
+        gsap.timeline({ delay: 0.2 })
+          .fromTo(buy.candle, { scale: 1.1, opacity: 0 }, { scale: 1, opacity: 1, duration: 1.4, ease: EASE })
+          .from(".buy-panel > *", { opacity: 0, y: 12, duration: 0.6, ease: EASE, stagger: 0.04 }, 0.15);
+      }
+    })();
+  </script>
+</body>
+</html>
